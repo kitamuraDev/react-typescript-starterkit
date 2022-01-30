@@ -1,6 +1,8 @@
-import { VFC } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import { VFC } from 'react';
+
+import logo from './logo.svg';
 
 const App: VFC = () => (
   <div className='App'>

@@ -162,14 +162,14 @@ $ npx eslint-config-prettier 'src/**/*.{js,jsx,ts,tsx}
 1. extends
    - 共有設定の定義場所
    - 共有設定間で設定ルールの値が衝突したら後に記述されたルールが先に記述されたルールを上書きする
-   - 並びは順不同ではないため、並び替えは原則しない
+   - 並びは順不同ではないため、並び替えは慎重に
 2. parser
-   - ESLint のパーサを定義（`@typescript-eslint/parser`）
+   - ESLint のパーサを定義
 3. parserOptions
    - ESLint のパーサへ渡すオプションを定義する場所
    - project は、プロジェクトの TypeScript のコンパイル設定ファイルのパス（別ファイル（tsconfig.eslint.json）を作る理由は、パーサが npm パッケージのファイルまでパースしてしまって、VS Code と連携させたときのパフォーマンスがガタ落ちしたり、新規ファイルのパースに失敗してしまうため）
 4. plugins
-   - インストール済みのプラグイン組み込む
+   - インストール済みのプラグインを組み込む
    - ESLint の組み込みルール以外に独自のルールを追加する場所
 5. root
    - ESLint はデフォルトの挙動として親ディレクトリの設定ファイルまで読み込んでしまうので、それを抑止するためのもの
@@ -177,19 +177,18 @@ $ npx eslint-config-prettier 'src/**/*.{js,jsx,ts,tsx}
    - 適用する個々のルールと、エラーレベルや例外などその設定値を定義
    - ここに記述するのは大抵、extends で適用したルールを個別で無効にしたり例外を設けたりしたいケース
 7. 当プロジェクトの rules の解説（[「りあクト！」](https://oukayuka.booth.pm/items/2368019)から引用）
-   - `lines-between-class-members`: クラスメンバーの定義の間に空行を入れるかどうかを定義するルール。eslint-config-airbnb で常に空行を入れるように設定されていたのを、ここでは 1 行記述のメンバーのときは空行を入れなくていいようにしている
-   - `no-void`: void 演算子の（式としての）使用を禁ずるルール。Effect Hook18 内で非同期処理を記述する際、@typescript-eslint/no-floating-promises ルールに抵触してしまうのを回避するのに void 文を記述する必要があるため、文としての使用のみを許可している
+   - `no-void`: void 演算子の（式としての）使用を禁ずるルール。Effect Hook 内で非同期処理を記述する際、@typescript-eslint/no-floating-promises ルールに抵触してしまうのを回避するのに void 文を記述する必要があるため、文としての使用のみを許可している
    - `padding-line-between-statements`<span style="color: red">\*</span>: 任意の構文の間に区切りの空行を入れるかどうかを定義するルール。ここでは return 文の前に常に空行を入れるよう設定している
    - `@typescript-eslint/no-unused-vars`<span style="color: red">\*</span>: 使用していない変数の定義を許さないルール。ここでは変数名を \_ にしたときのみ許容するように設定
    - `import/extensions`<span style="color: red">\*</span>: インポートの際のファイル拡張子を記述するかを定義するルール。npm パッケージ以外のファイルについて .js、.jsx、.ts、.tsx のファイルのみ拡張子を省略し、他のファイルは拡張子を記述させるように設定
    - `react/jsx-filename-extension`<span style="color: red">\*</span>: JSX のファイル拡張子を制限するルール。eslint-config-airbnb で .jsx のみに限定されているので、.tsx を追加
    - `react/jsx-props-no-spreading`: JSX でコンポーネントを呼ぶときの props の記述にスプレッド構文を許さないルール。eslint-config-airbnb にてすべて禁止されているが、<Foo {...{ bar, baz } /}> のように個々の props を明記する書き方のみ許容するように設定
    - `react/react-in-jsx-scope`: JSX 記述を使用する場合に react モジュールを React としてインポートすることを強制する。新しい JSX 変換形式を用いる場合はインポートが不要になるためこの設定を無効化
-   - `react/prop-types`<span style="color: red">\*</span>: コンポーネントの props に型チェックを行うための propTypes プロパティ 19 の定義を強制するルール。eslint-config-airbnb で設定されているが、TypeScript の場合は不要なのでファイル拡張子が .tsx の場合に無効化するよう設定を上書き
+   - `react/prop-types`<span style="color: red">\*</span>: コンポーネントの props に型チェックを行うための propTypes プロパティ の定義を強制するルール。eslint-config-airbnb で設定されているが、TypeScript の場合は不要なのでファイル拡張子が .tsx の場合に無効化するよう設定を上書き
 8. overrides
-   - overrides は任意の glob パターン 20 にマッチするファイルのみ、ルールの適用を上書きできるプロパティ。（当プロジェクトでは）react/prop-types ルールを通常の JSX ファイルでは適用したままにして、.tsx ファイルでは無効にするために使ってる
+   - overrides は任意の glob パターン にマッチするファイルのみ、ルールの適用を上書きできるプロパティ。（当プロジェクトでは）react/prop-types ルールを通常の JSX ファイルでは適用したままにして、.tsx ファイルでは無効にするために使ってる
 9. settings
-   - settings は任意の実行ルールに適用される追加の共有設定。（当プロジェクトでは）tsconfig.json で src/ 配下のファイルを絶対パスでインポートできるようにしていたけど 21、このままでは eslint-plugin-import がその絶対パスを解決できずにエラーを出してしまう。だからここでは eslint-plugin-import が内部で使用している eslint-import-resolver-node22 というモジュール解決プラグインに対して、パスに src を追加してる
+   - settings は任意の実行ルールに適用される追加の共有設定。（当プロジェクトでは）tsconfig.json で src/ 配下のファイルを絶対パスでインポートできるようにしていたけど、このままでは eslint-plugin-import がその絶対パスを解決できずにエラーを出してしまう。だからここでは eslint-plugin-import が内部で使用している eslint-import-resolver-node というモジュール解決プラグインに対して、パスに src を追加してる
 
 <br />
 
