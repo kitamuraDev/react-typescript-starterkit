@@ -33,8 +33,8 @@
 ## ■ 環境構築手順（備忘録）
 
 1. $ `npx create-react-app react-typescript-starterkit --template typescript`
-2. $ tsconfig.josn の書き換え（Notion のメモ参照）
-3. $ `yarn eslint --init`
+2. $ tsconfig.json をカスタマイズ
+3. $ `yarn create @eslint/config`
    - How would you like to use ESLint? -> <b>To check syntax, find problems, and enforce code style</b>
    - What type of modules does your project use? -> <b>JavaScript Modules（Import / export）</b>
    - Which framework does your project use? -> <b>React</b>
