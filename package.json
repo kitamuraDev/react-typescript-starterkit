@@ -25,7 +25,8 @@
     "format": "prettier --write --loglevel=warn 'src/**/*.{js,jsx,ts,tsx,gql,graphql,json}'",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint:conflict": "eslint-config-prettier 'src/**/*.{js,jsx,ts,tsx}'"
+    "lint:conflict": "eslint-config-prettier 'src/**/*.{js,jsx,ts,tsx}'",
+    "prepare": "simple-git-hooks > /dev/null"
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +59,16 @@
     "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "prettier": "^2.4.1"
+    "lint-staged": "^12.3.4",
+    "prettier": "^2.4.1",
+    "simple-git-hooks": "^2.7.0"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts}": [
+      "eslint --fix --quiet"
+    ]
   }
 }
