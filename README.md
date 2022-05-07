@@ -148,15 +148,6 @@ $ npx eslint-config-prettier 'src/**/*.{js,jsx,ts,tsx}
 
 <br />
 
-## ■ ESLint を黙らせる方法
-
-- eslint-disable // そのコメントからファイルが終わるまですべてのルールのチェックを無効化
-- eslint-disable <ルール名> // そのコメントからファイルが終わるまで指定したルールのチェックを無効化
-- eslint-disable-line // 同一行のルールを無効化
-- eslint-disable-next-line // 次の行のルールを無効化
-
-<br />
-
 ## ■ .eslintrc.js の解説
 
 1. extends
